@@ -16,7 +16,7 @@ export default defineConfig(
         plugins: [
             {
                 name: 'test-plugin',
-                apply: 'build',
+                enforce: 'pre',
                 resolveId(source, importer, options) {
                     console.log('resolveId', source, importer)
 
@@ -27,7 +27,10 @@ export default defineConfig(
                         const resolveId = await this.resolve(path.resolve(__dirname, 'src/other.css'), path.resolve(__dirname, 'src/style.css'))
                         if (resolveId) {
                             const otherCss = await this.load(resolveId);
-                            console.log('otherCss', otherCss.code)
+                            const xxx = await this.load({
+                                id: path.resolve(__dirname, 'src/other.css')
+                            });
+                            console.log('otherCss', otherCss.code, xxx)
                             const code = await fs.readFile(path.resolve(__dirname, 'src/other.css'), 'utf-8')
                             console.log('code', code)
                             if (otherCss) {
