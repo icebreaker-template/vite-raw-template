@@ -28,14 +28,15 @@ export default defineConfig(
                         if (resolveId) {
                             const otherCss = await this.load(resolveId);
                             const xxx = await this.load({
-                                id: path.resolve(__dirname, 'src/other.css')
+                                id: path.resolve(__dirname, 'src/other.css'),
+                                moduleSideEffects: 'no-treeshake'
                             });
-                            console.log('otherCss', otherCss.code, xxx)
-                            const code = await fs.readFile(path.resolve(__dirname, 'src/other.css'), 'utf-8')
-                            console.log('code', code)
+                            // console.log('otherCss', otherCss.code, xxx)
+                            // const code = await fs.readFile(path.resolve(__dirname, 'src/other.css'), 'utf-8')
+                            console.log('code', code, xxx.code)
                             if (otherCss) {
                                 // 合并 src/style.css 和 src/other.css 的内容
-                                const combinedCss = `${code}\n${otherCss.code}`;
+                                const combinedCss = `${code}\n${xxx.code}`;
                                 return combinedCss;
                             }
                         }
